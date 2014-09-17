@@ -6,7 +6,7 @@
 * Create a container with the following command:
 
 
-	 docker run -h docker -i -d \
+		docker run -h docker -i -d \
  						-p 22:22 \
  						-p 7180:7180 \
 					 	-p 50010:50010 \
