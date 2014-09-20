@@ -21,9 +21,10 @@ docker run -h docker -i -d\
 -p 19888:19888 \
 -p 41370:41370 \
 -p 38319:38319 \
--t dgreco/cdh5:v2
+-p 10000:10000 \
+-p 21050:21050 \
+-t dgreco/cdh5:v4
 
-#!/bin/sh
 while ! curl -X POST http://admin:admin@docker:7180/api/v5/clusters/Cluster%201/commands/start
 do
 	echo "$(date) - still trying"
