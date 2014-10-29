@@ -1,6 +1,6 @@
 #!/bin/bash
 docker run -h docker -i -d\
--p 22:22 \
+-p 2222:22 \
 -p 2181:2181 \
 -p 7180:7180 \
 -p 50010:50010 \
@@ -41,7 +41,7 @@ done
 echo "$(date) - all the the cluster's services are up and running"
 
 expect -f - <<EOF
-spawn ssh-copy-id -i ${HOME}/.ssh/id_rsa.pub root@docker
+spawn ssh-copy-id -p 2222 -i ${HOME}/.ssh/id_rsa.pub root@docker
 expect {
   "assword" {
     send "root\r"
@@ -49,4 +49,4 @@ expect {
 }
 expect eof
 EOF
-ssh root@docker "su - hdfs -c 'hdfs dfs -mkdir /user/${USER}; hdfs dfs -chown ${USER} /user/${USER}'"
+ssh -p 2222 root@docker "su - hdfs -c 'hdfs dfs -mkdir /user/${USER}; hdfs dfs -chown ${USER} /user/${USER}'"
