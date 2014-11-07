@@ -7,7 +7,7 @@
 
 
 		docker run -h docker -i -d \
- 						-p 22:22 \
+ 						-p 2222:22 \
  						-p 7180:7180 \
 					 	-p 50010:50010 \
 					 	-p 50075:50075 \
@@ -29,5 +29,5 @@
 		 				-p 38319:38319 \
  						-t dgreco/cm5:v1
  						
-* This container will start a cloudere manager service that could use for creating all the services you need.
+* This container will start a Cloudera Manager service that you can use for creating all the services you need.
  
