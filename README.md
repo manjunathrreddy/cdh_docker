@@ -27,6 +27,9 @@
 					 	-p 19888:19888 \
 					 	-p 41370:41370 \
 		 				-p 38319:38319 \
+						-p 25000:25000 \
+						-p 25010:25010 \
+						-p 25020:25020 \
  						-t dgreco/cm5:v1
  						
 * This container will start a Cloudera Manager service that you can use for creating all the services you need.

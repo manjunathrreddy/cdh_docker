@@ -23,6 +23,12 @@ docker run -h docker -i -d\
 -p 38319:38319 \
 -p 10000:10000 \
 -p 21050:21050 \
+-p 25000:25000 \
+-p 25010:25010 \
+-p 25020:25020 \
+-p 18080:18080 \
+-p 18081:18081 \
+-p 7077:7077 \
 -t dgreco/cdh5:v1
 
 while ! curl -X POST http://admin:admin@docker:7180/api/v5/clusters/Cluster%201/commands/start
@@ -33,7 +39,7 @@ done
 echo "$(date) - started the cluster successfully"
 curl -X POST http://admin:admin@docker:7180/api/v5/clusters/Cluster%201/commands/deployClientConfig
 
-while [ "`curl -s -u admin:admin 'http://docker:7180/api/v1/clusters/Cluster%201/services' | grep STARTED | wc -l`" -ne "5" ]
+while [ "`curl -s -u admin:admin 'http://docker:7180/api/v1/clusters/Cluster%201/services' | grep STARTED | wc -l`" -ne "4" ]
 do
 	echo "$(date) - still waiting"
 	sleep 30
