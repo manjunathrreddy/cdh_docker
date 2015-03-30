@@ -1,43 +1,43 @@
 * Command for bulding the image
 
-
-	docker build --tag="dgreco/cm5:v1" .
+		docker build --tag="dgreco/cm5:v1" .
 
 * Create a container with the following command:
 
-
-		docker run -h docker -i -d \
-						-p 2222:22 \
-						-p 2181:2181 \
-						-p 7180:7180 \
-						-p 50010:50010 \
-						-p 50075:50075 \
-						-p 50020:50020 \
-						-p 8020:8020 \
-						-p 50070:50070 \
-						-p 50090:50090 \
-						-p 8032:8032 \
-						-p 8030:8030 \
-						-p 8031:8031 \
-						-p 8033:8033 \
-						-p 8088:8088 \
-						-p 8040:8040 \
-						-p 8042:8042 \
-						-p 8041:8041 \
-						-p 10020:10020 \
-						-p 19888:19888 \
-						-p 41370:41370 \
-						-p 38319:38319 \
-						-p 10000:10000 \
-						-p 21050:21050 \
-						-p 25000:25000 \
-						-p 25010:25010 \
-						-p 25020:25020 \
-						-p 7077:7077 \
-						-p 7078:7078 \
-						-p 18080:18080 \
-						-p 18081:18081 \
- 						-t dgreco/cm5:v1
+		docker run -h cdh-docker --name=cdh-docker -i -d -t dgreco/cm5:v1
  						
 * This container will start a Cloudera Manager service that you can use for creating all the services you need.
- 
+
+* Then add a route, using this command, for accessing all the ports used by the container without actually exposing them: 
+
+		sudo route -n add 172.17.0.0/16 `echo $DOCKER_HOST | awk -F '//|:' '{ print $3}'`
+
+* Finally, you can get the Cloudera Manager IP address with this command:
+
+		docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}'
+
+* Create the following services:
+	
+	HDFS
+	
+	YARN
+
+	SPARK (YARN)
+	
+* Change the following parameters for HDFS:
+		
+		DataNode Default Group / Resource Management: dfs.datanode.max.locked.memory = 65536 B
+		Service-Wide / Ports and Addresses: dfs.client.use.datanode.hostname = true
+		DataNode Default Group / Ports and Addresses: dfs.datanode.use.datanode.hostname = true
+		Service-Wide / Replication: dfs.replication = 1		
+
+* Change the following parameters for YARN:
+
+		NodeManager Default Group / Resource Management: yarn.nodemanager.resource.memory-mb = 4 GiB
+		ResourceManager Default Group / Resource Management: yarn.scheduler.maximum-allocation-mb = 2 GiB
+
+* After creating all the services, before committing the container you should stop the entire cluster.
+
+* Then commit the container for creating the CDH image:
+
+		docker commit cdh-docker dgreco/cdh5:v1
