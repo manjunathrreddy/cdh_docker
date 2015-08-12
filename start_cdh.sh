@@ -16,7 +16,7 @@ do
 done
 echo "$(date) - started the cluster successfully"
 
-while [ `curl -s -u admin:admin http://$ADDRESS:7180/api/v5/clusters/Cluster%201/services | grep STARTED | wc -l` -ne "3" ]
+while [ `curl -s -u admin:admin http://$ADDRESS:7180/api/v5/clusters/Cluster%201/services | grep STARTED | wc -l` -ne "6" ]
 do
 	echo "$(date) - still waiting"
 	sleep 30
@@ -27,7 +27,7 @@ then
     echo "$(date) - there is a stale service: restarting the cluster again"
 	curl -X POST http://admin:admin@$ADDRESS:7180/api/v5/clusters/Cluster%201/commands/restart
 	sleep 30
-	while [ `curl -s -u admin:admin http://$ADDRESS:7180/api/v5/clusters/Cluster%201/services | grep STARTED | wc -l` -ne "3" ]
+	while [ `curl -s -u admin:admin http://$ADDRESS:7180/api/v5/clusters/Cluster%201/services | grep STARTED | wc -l` -ne "6" ]
 	do
 		echo "$(date) - still waiting"
 		sleep 30

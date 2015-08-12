@@ -18,11 +18,17 @@
 
 * Create the following services:
 	
+	ZOOKEEPER
+	
 	HDFS
 	
 	YARN
 
 	SPARK (YARN)
+	
+	HIVE
+	
+	IMPALA
 	
 * Change the following parameters for HDFS:
 		
