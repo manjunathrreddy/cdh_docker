@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 docker run -h cdh-docker --name=cdh-docker -i -d -t dgreco/cdh5:v1
 
 ADDRESS=`docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}'`
@@ -37,7 +37,8 @@ curl -X POST http://admin:admin@$ADDRESS:7180/api/v5/clusters/Cluster%201/comman
 echo "$(date) - all the the cluster's services are up and running"
 
 expect -f - <<EOF
-spawn ssh-copy-id -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_rsa.pub root@$ADDRESS
+spawn ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ADDRESS mkdir .ssh
+sleep 5
 expect {
   "assword" {
     send "root\r"
@@ -45,4 +46,16 @@ expect {
 }
 expect eof
 EOF
+
+expect -f - <<EOF
+spawn scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${HOME}/.ssh/id_rsa.pub root@$ADDRESS:.ssh/authorized_keys
+sleep 5
+expect {
+  "assword" {
+    send "root\r"
+  }
+}
+expect eof
+EOF
+
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ADDRESS "su - hdfs -c 'hdfs dfs -mkdir /user/${USER}; hdfs dfs -chown ${USER} /user/${USER}'"
