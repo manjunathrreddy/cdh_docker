@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 docker run -h cdh-docker --name=cdh-docker -i -d -t dgreco/cdh5:v1
 
 ADDRESS=`docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}'`
