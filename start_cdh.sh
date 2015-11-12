@@ -1,7 +1,7 @@
 #!/bin/bash
 docker run -h cdh-docker --name=cdh-docker -i -d -t dgreco/cdh5:v1
 
-ADDRESS=`docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}'`
+ADDRESS=`docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}' | sed 1d | uniq`
 
 echo -e "Please enter your password:"
 read -s pwd
