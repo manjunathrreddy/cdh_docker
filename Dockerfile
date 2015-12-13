@@ -15,7 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq oracle-j2sdk1.7
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle-cloudera
 ENV PATH $JAVA_HOME/bin:$PATH
  
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq oracle-j2sdk1.6 cloudera-manager-server-db cloudera-manager-daemons cloudera-manager-server ssh net-tools vim inetutils-ping
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq oracle-j2sdk1.6 cloudera-manager-server-db cloudera-manager-daemons cloudera-manager-server apt-transport-https ssh net-tools vim inetutils-ping
 
 RUN echo 'root:root' | chpasswd 
 RUN sed -e 's/without-password/yes/g' /etc/ssh/sshd_config > /etc/ssh/tmp; mv /etc/ssh/tmp /etc/ssh/sshd_config

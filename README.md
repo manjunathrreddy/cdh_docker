@@ -14,7 +14,7 @@
 
 * Finally, you can get the Cloudera Manager IP address with this command:
 
-		docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}'
+		docker inspect cdh-docker | grep IPAddress | awk -F ':|,|"' '{ print $5}' | sed 1d | uniq
 
 * Create the following services:
 	
